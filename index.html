@@ -2,214 +2,99 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>HEART Clinical Pathway Configuration</title>
-    <link rel="stylesheet" href="./assets/css/styles.css" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Vibe Coding Projects</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #f3f6fa;
+        color: #18324e;
+        font:
+          16px/1.6 Arial,
+          Helvetica,
+          sans-serif;
+      }
+      header {
+        padding: 28px max(24px, calc((100vw - 1000px) / 2));
+        background: #173e68;
+        color: white;
+      }
+      header p {
+        margin: 3px 0 0;
+        color: #d5e5f5;
+        font-size: 14px;
+      }
+      h1 {
+        font-size: 28px;
+        margin: 0;
+      }
+      main {
+        max-width: 1000px;
+        padding: 32px 24px;
+        margin: auto;
+      }
+      h2 {
+        margin-top: 0;
+        font-size: 22px;
+      }
+      .project {
+        background: white;
+        border: 1px solid #dce3eb;
+        border-radius: 8px;
+        padding: 25px;
+        margin-top: 20px;
+      }
+      .tag {
+        font-size: 12px;
+        color: #30649d;
+        background: #edf4fc;
+        border-radius: 4px;
+        padding: 4px 8px;
+      }
+      a {
+        color: #1666bd;
+      }
+      a.button {
+        display: inline-block;
+        background: #1767c1;
+        color: white;
+        text-decoration: none;
+        padding: 10px 16px;
+        border-radius: 5px;
+        margin-top: 12px;
+      }
+      .hint {
+        font-size: 13px;
+        color: #64748b;
+        margin-top: 25px;
+      }
+      a:focus-visible {
+        outline: 3px solid #8dbcf4;
+        outline-offset: 3px;
+      }
+    </style>
   </head>
   <body>
-    <header class="brandbar">
-      <div class="brand"><b>PHILIPS</b><span>ECG Management System</span></div>
-      <div class="account">Configuration administrator</div>
+    <header>
+      <h1>Vibe Coding</h1>
+      <p>Independent prototypes and learning projects</p>
     </header>
-    <nav class="topnav" aria-label="Application">
-      <span>System Monitor</span><span>Enterprise Manager</span><span>Statement Manager</span
-      ><span>Audit Tracking Viewer</span><span class="active">System Configuration</span
-      ><span>Web API Console</span>
-    </nav>
-    <div class="shell">
-      <aside class="sidebar">
-        <h2>System Configuration</h2>
-        <div>Global</div>
-        <div>ECG Reports</div>
-        <div>User Fields</div>
-        <div>Serial Comparison</div>
-        <div>Analysis</div>
-        <div class="selected">HEART</div>
-        <div>Orders</div>
-        <div>Import</div>
-        <div>Locations</div>
-        <div>Physicians</div>
-        <div>Workflow</div>
-        <div>Security Roles</div>
-        <div>Audit/Tracking</div>
-        <div>External System</div>
-        <div>Holter</div>
-      </aside>
-      <main>
-        <div class="breadcrumb">System Configuration / HEART</div>
-        <div class="pagehead">
-          <div>
-            <h1>HEART</h1>
-            <p class="sub">Configure clinical pathways and their rules for your organization.</p>
-          </div>
-          <div class="customer">
-            <strong>Example Hospital</strong><span class="preview">Interactive design preview</span>
-          </div>
-        </div>
-        <div class="tabs"><span>Clinical Pathways</span></div>
-        <div class="feature">
-          <div>
-            <strong>Enable clinical pathways</strong
-            ><small>Apply the configured pathways for this customer.</small>
-          </div>
-          <label class="switch"
-            ><input
-              id="master"
-              type="checkbox"
-              aria-label="Enable clinical pathways"
-              checked
-            /><span id="masterLabel">On</span></label
-          >
-        </div>
-        <div class="pathselector">
-          <div>
-            <label class="label" for="pathSelect">Pathway <span class="countbadge">1</span></label
-            ><select class="field" id="pathSelect" aria-label="Select pathway">
-              <option value="post_tavr_monitoring">Post TAVR Monitoring</option>
-            </select>
-          </div>
-          <div>
-            <button
-              class="btn"
-              disabled
-              title="Additional pathways are planned for a future release"
-            >
-              ＋ Add pathway
-            </button>
-            <div class="future">
-              First release: 1 pathway · more can be added in future releases
-            </div>
-          </div>
-        </div>
-        <section class="path" aria-label="Selected pathway configuration">
-          <div class="pathhead">
-            <div class="pathtitle">
-              <label class="label" for="pathTitle">Pathway title</label
-              ><input
-                id="pathTitle"
-                class="field"
-                maxlength="100"
-                value="Post TAVR Monitoring"
-                aria-describedby="titleHelp titleError"
-              />
-              <p class="help" id="titleHelp">
-                Display name in HEART. Renaming retains the pathway identity and its rule settings.
-              </p>
-              <p class="error" id="titleError"></p>
-            </div>
-            <label class="switch"
-              ><input
-                id="pathway"
-                type="checkbox"
-                aria-label="Enable selected pathway"
-                checked
-              /><span id="pathLabel">Enabled</span></label
-            >
-          </div>
-          <div class="pathmeta">
-            <span id="ruleCount">6 rules enabled</span><span>Rule set 2.1.0</span
-            ><span>ECG pair interval: <b>8 hours</b> · read-only</span>
-          </div>
-          <div class="subtabs" role="tablist" aria-label="Pathway configuration">
-            <button
-              class="active"
-              role="tab"
-              aria-selected="true"
-              id="rulesTab"
-              aria-controls="rulesPanel"
-            >
-              Rules <span class="countbadge">6</span></button
-            ><button
-              role="tab"
-              aria-selected="false"
-              id="referencesTab"
-              aria-controls="referencesPanel"
-            >
-              Reference materials <span class="countbadge" id="refCount">2</span>
-            </button>
-          </div>
-          <div id="rulesPanel" role="tabpanel" aria-labelledby="rulesTab">
-            <div class="workarea">
-              <aside class="rulepane" id="ruleList" aria-label="Available rules"></aside>
-              <section class="editor" id="editor" aria-label="Rule details"></section>
-            </div>
-          </div>
-          <section
-            class="refpanel"
-            id="referencesPanel"
-            role="tabpanel"
-            aria-labelledby="referencesTab"
-            hidden
-          ></section>
-        </section>
-        <div class="notice" id="notice" role="status" aria-live="polite"></div>
-        <footer class="footer">
-          <div class="footcopy">
-            <div id="saveState">All changes saved</div>
-            <div>Preview only · changes stay in this session</div>
-          </div>
-          <div class="actions">
-            <button class="btn" id="reset">Restore rule defaults</button
-            ><button class="btn" id="cancel" disabled>Cancel</button
-            ><button class="btn primary" id="save" disabled>Save changes</button>
-          </div>
-        </footer>
-      </main>
-    </div>
-    <dialog id="confirmDialog">
-      <h3 id="dialogTitle"></h3>
-      <p id="dialogText"></p>
-      <div class="actions">
-        <button class="btn" id="dialogStay">Keep editing</button
-        ><button class="btn primary" id="dialogYes">Discard changes</button>
-      </div>
-    </dialog>
-    <dialog class="refdialog" id="referenceDialog">
-      <h3 id="referenceDialogTitle">Add reference material</h3>
-      <p class="dialoghelp">
-        Reference materials support review of this pathway. Linking a document does not change a
-        rule or establish Medical Affairs approval.
+    <main>
+      <h2>Projects</h2>
+      <p>Select a project to open its interactive prototype.</p>
+      <article class="project">
+        <span class="tag">Configuration prototype</span>
+        <h3>HEART pathway configuration</h3>
+        <p>Configure pathway titles, rules, measurement thresholds, and reference materials.</p>
+        <a class="button" href="./projects/heart-pathway-config/index.html">Open HEART prototype</a>
+      </article>
+      <p class="hint">
+        Additional projects can be added to this collection. The ECG learning tool is not included
+        yet.
       </p>
-      <form id="referenceForm">
-        <label class="label" for="refTitle">Document title</label
-        ><input class="field" id="refTitle" required />
-        <div class="row">
-          <div>
-            <label class="label" for="refPublisher">Publisher or society</label
-            ><input class="field" id="refPublisher" />
-          </div>
-          <div>
-            <label class="label" for="refYear">Publication year or version</label
-            ><input class="field" id="refYear" />
-          </div>
-        </div>
-        <label class="label" for="refUrl">Source link</label
-        ><input class="field" type="url" id="refUrl" placeholder="https://" required /><label
-          class="label"
-          for="refLocator"
-          >Relevant page or section</label
-        ><input class="field" id="refLocator" placeholder="e.g. Page 3, Post-TAVR management" />
-        <fieldset>
-          <legend>Link to individual rules (optional)</legend>
-          <div id="referenceRuleLinks"></div>
-        </fieldset>
-        <div class="gap">
-          <label class="label" for="refNotes">Applicability notes</label
-          ><textarea
-            class="field"
-            id="refNotes"
-            placeholder="Record how this source relates to the selected rules."
-          ></textarea>
-        </div>
-        <p class="error" id="refFormError" role="alert"></p>
-        <div class="actions">
-          <button class="btn" type="button" id="referenceCancel">Cancel</button
-          ><button class="btn primary" type="submit">Apply reference</button>
-        </div>
-      </form>
-      <p class="dialoghelp">Changes remain pending until Save changes is selected.</p>
-    </dialog>
-    <script defer src="./assets/js/demo-data.js"></script>
-    <script defer src="./assets/js/app.js"></script>
+    </main>
   </body>
 </html>
