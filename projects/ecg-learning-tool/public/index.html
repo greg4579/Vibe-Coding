@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Four visual ECG chapters with electrode placement, viewing angles, guided practice, and mixed recall.">
+  <meta name="theme-color" content="#003d73">
+  <title>ECG Learning Tool</title>
+  <link rel="stylesheet" href="./assets/styles.css">
+  <script type="module" src="./assets/app.js"></script>
+</head>
+<body>
+  <noscript>This learning tool needs JavaScript for chapter navigation and exercises.</noscript>
+<div id="ecg-philips-quiz" class="ecg-app">
+  <section class="pq-window" aria-label="ECG Learning Tool">
+    <header class="pq-header">
+      <span class="pq-brand">PHILIPS <span>inspired learning</span></span>
+      <h1 class="pq-header-label">ECG Learning</h1>
+    </header>
+    <div class="nc-chapter-bar"><label for="nc-chapter">Your chapters</label><select id="nc-chapter" aria-label="Choose a chapter"><option value="1">1 · Lead foundations</option><option value="2" selected>2 · Place the electrodes</option><option value="3">3 · Read the viewing angles</option><option value="4">4 · Connect leads to heart regions</option></select></div>
+    <div id="nc-foundation" hidden>
+    <main class="pq-main">
+      <section id="ecg-learn" aria-labelledby="ecg-learn-title">
+        <div class="pq-meta"><span>CHAPTER 1 · LEAD FOUNDATIONS</span><span>Learn · 3 short lessons</span></div>
+        <h2 id="ecg-learn-title">Build the mental picture</h2>
+        <div class="ecg-lessons" aria-label="Choose a lesson">
+          <button type="button" data-lesson="0" class="ecg-lesson-link cursor-interaction" aria-pressed="true">1. Sensors &amp; views</button>
+          <button type="button" data-lesson="1" class="ecg-lesson-link cursor-interaction" aria-pressed="false">2. Lead families</button>
+          <button type="button" data-lesson="2" class="ecg-lesson-link cursor-interaction" aria-pressed="false">3. Two planes</button>
+        </div>
+        <article id="ecg-lesson-0" class="ecg-lesson">
+          <h3>10 electrodes. 12 electrical views.</h3>
+          <p>An <strong>electrode</strong> is a physical sensor on the skin. A <strong>lead</strong> is a view of the heart’s electrical activity, derived from voltage differences.</p>
+          <div class="ecg-equation" aria-label="Four limb electrodes plus six chest electrodes equals ten electrodes">
+            <div><div class="ecg-dots" aria-hidden="true"><b></b><b></b><b></b><b></b></div><strong>4 limb electrodes</strong></div>
+            <span aria-hidden="true">+</span>
+            <div><div class="ecg-dots" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b><b></b></div><strong>6 chest electrodes</strong></div>
+          </div>
+          <div class="ecg-takeaway"><strong>10 sensors → 12 leads</strong><span>The recorded voltages produce six limb leads and six chest leads. “12-lead” counts views.</span></div>
+          <p class="ecg-note">Memory cue: an electrode senses; a lead shows a view.</p>
+        </article>
+        <article id="ecg-lesson-1" class="ecg-lesson" hidden>
+          <h3>Know the two lead families</h3>
+          <div class="ecg-families">
+            <div><h4>Limb leads · 6</h4><div class="ecg-tags"><span>I</span><span>II</span><span>III</span><span>aVR</span><span>aVL</span><span>aVF</span></div><p>These leads view electrical activity in the <strong>frontal plane</strong>.</p></div>
+            <div><h4>Chest leads · 6</h4><div class="ecg-tags"><span>V1</span><span>V2</span><span>V3</span><span>V4</span><span>V5</span><span>V6</span></div><p>Also called precordial leads. They view activity in the <strong>horizontal plane</strong>.</p></div>
+          </div>
+          <div class="ep-placement">
+            <h4>Where the electrodes go</h4>
+            <div class="ep-tabs" role="group" aria-label="Electrode placement diagrams">
+              <button id="ep-chest-tab" class="ecg-lesson-link cursor-interaction" type="button" aria-pressed="true" aria-controls="ep-chest-view">Chest · 6 electrodes</button>
+              <button id="ep-limb-tab" class="ecg-lesson-link cursor-interaction" type="button" aria-pressed="false" aria-controls="ep-limb-view">Limbs · 4 electrodes</button>
+            </div>
+            <p class="ecg-note">Front view: the patient’s right is on your left. Choose an electrode below for its landmark.</p>
+            <div class="ep-grid">
+              <div>
+                <div id="ep-chest-view">
+                  <svg id="ep-chest-diagram" class="ep-diagram" viewBox="0 0 400 320" role="img" aria-labelledby="ep-chest-title ep-chest-desc">
+                    <title id="ep-chest-title">Standard V1–V6 chest electrode positions, front view</title>
+                    <desc id="ep-chest-desc">V1 is at the right sternal border, fourth intercostal space. V2 is at the left sternal border, fourth intercostal space. V3 is between V2 and V4. V4 is at the left midclavicular line, fifth intercostal space. V5 is at the left anterior axillary line, level with V4. V6 is at the left midaxillary line, level with V4. Positions are schematic; the buttons give exact landmarks.</desc>
+                    <text x="16" y="22" class="ep-orientation">Patient’s right</text><text x="384" y="22" text-anchor="end" class="ep-orientation">Patient’s left</text>
+                    <path d="M163 39L162 59Q139 69 105 70Q75 72 56 103L30 162L60 180L88 128Q95 159 89 192L82 300H331L324 192Q318 159 325 128L353 180L383 162L357 103Q338 72 308 70Q274 69 251 59L250 39" fill="#eef5fa" stroke="#9db6c8" stroke-width="1.5"/>
+                    <path d="M164 68Q185 87 207 80Q229 87 250 68 M114 83Q154 77 190 91 M224 91Q260 77 300 83" fill="none" stroke="#9db6c8" stroke-width="2"/>
+                    <rect x="196" y="94" width="21" height="102" rx="8" fill="#d8e5ee"/>
+                    <text x="206" y="113" text-anchor="middle" class="ep-anatomy" transform="rotate(90 206 113)">Sternum</text>
+                    <path d="M270 89V280 M310 190V280 M331 190V280" stroke="#b1c7d7" stroke-width="1" stroke-dasharray="3 5"/>
+                    <path d="M260 218H340" stroke="#0066a1" stroke-width="1.5" stroke-dasharray="5 4"/>
+                    <path d="M180 180L153 142H124 M230 180L245 130H270 M250 199L278 166H298 M270 218V253H252 M310 218V280 M331 218L355 243H376" fill="none" stroke="#7799b0" stroke-width="1.25"/>
+                    <text x="104" y="146" class="ep-label">V1</text><text x="274" y="134" class="ep-label">V2</text><text x="302" y="170" class="ep-label">V3</text><text x="226" y="259" class="ep-label">V4</text><text x="310" y="302" text-anchor="middle" class="ep-label">V5</text><text x="350" y="267" class="ep-label">V6</text>
+                    <circle id="ep-dot-V1" class="ep-dot ep-active-dot" cx="180" cy="180" r="7"/>
+                    <circle id="ep-dot-V2" class="ep-dot" cx="230" cy="180" r="7"/>
+                    <circle id="ep-dot-V3" class="ep-dot" cx="250" cy="199" r="7"/>
+                    <circle id="ep-dot-V4" class="ep-dot" cx="270" cy="218" r="7"/>
+                    <circle id="ep-dot-V5" class="ep-dot" cx="310" cy="218" r="7"/>
+                    <circle id="ep-dot-V6" class="ep-dot" cx="331" cy="218" r="7"/>
+                  </svg>
+                  <div class="ep-electrodes" role="group" aria-label="Choose a chest electrode">
+                    <button type="button" class="ep-electrode cursor-interaction" data-electrode="V1" aria-pressed="true">V1</button><button type="button" class="ep-electrode cursor-interaction" data-electrode="V2" aria-pressed="false">V2</button><button type="button" class="ep-electrode cursor-interaction" data-electrode="V3" aria-pressed="false">V3</button><button type="button" class="ep-electrode cursor-interaction" data-electrode="V4" aria-pressed="false">V4</button><button type="button" class="ep-electrode cursor-interaction" data-electrode="V5" aria-pressed="false">V5</button><button type="button" class="ep-electrode cursor-interaction" data-electrode="V6" aria-pressed="false">V6</button>
+                  </div>
+                </div>
+                <div id="ep-limb-view" hidden>
+                  <svg id="ep-limb-diagram" class="ep-diagram" viewBox="0 0 400 360" role="img" aria-labelledby="ep-limb-title ep-limb-desc">
+                    <title id="ep-limb-title">Four limb electrodes on the arms and lower legs, front view</title>
+                    <desc id="ep-limb-desc">RA on the right forearm, LA on the left forearm, RL on the right lower leg, LL on the left lower leg. The patient's right appears on the viewer's left. The right leg electrode is a reference electrode, not a separate diagnostic lead.</desc>
+                    <text x="16" y="22" class="ep-orientation">Patient’s right</text><text x="384" y="22" text-anchor="end" class="ep-orientation">Patient’s left</text>
+                    <circle cx="200" cy="52" r="24" fill="#eef5fa" stroke="#9db6c8" stroke-width="1.5"/>
+                    <path d="M187 75V88H149Q132 90 122 117L80 194Q75 209 86 215Q99 221 108 206L147 141L145 224L151 318Q153 335 166 335Q179 334 180 318L189 241H211L220 318Q221 334 234 335Q247 335 249 318L255 224L253 141L292 206Q301 221 314 215Q325 209 320 194L278 117Q268 90 251 88H213V75" fill="#eef5fa" stroke="#9db6c8" stroke-width="1.5"/>
+                    <path d="M103 188H62 M297 188H338 M164 302H115 M236 302H285" stroke="#7799b0" stroke-width="1.25"/>
+                    <text x="29" y="194" class="ep-label">RA</text><text x="343" y="194" class="ep-label">LA</text><text x="77" y="308" class="ep-label">RL</text><text x="290" y="308" class="ep-label">LL</text>
+                    <circle id="ep-dot-RA" class="ep-dot" cx="103" cy="188" r="7"/><circle id="ep-dot-LA" class="ep-dot" cx="297" cy="188" r="7"/><circle id="ep-dot-RL" class="ep-dot" cx="164" cy="302" r="7"/><circle id="ep-dot-LL" class="ep-dot" cx="236" cy="302" r="7"/>
+                  </svg>
+                  <div class="ep-electrodes ep-limb-buttons" role="group" aria-label="Choose a limb electrode"><button type="button" class="ep-electrode cursor-interaction" data-electrode="RA" aria-pressed="false">RA</button><button type="button" class="ep-electrode cursor-interaction" data-electrode="LA" aria-pressed="false">LA</button><button type="button" class="ep-electrode cursor-interaction" data-electrode="RL" aria-pressed="false">RL</button><button type="button" class="ep-electrode cursor-interaction" data-electrode="LL" aria-pressed="false">LL</button></div>
+                </div>
+                <p class="ecg-note ep-caption">Schematic positions; use the anatomical landmarks.</p>
+              </div>
+              <div class="ep-description" aria-live="polite">
+                <div id="ep-selected-label" class="ep-selected-label">V1 · chest electrode</div>
+                <p id="ep-landmark">4th intercostal space, at the right border of the sternum.</p>
+                <p id="ep-tip" class="ecg-note">An intercostal space is the gap between two ribs. V1 belongs on the patient’s right.</p>
+                <div class="ep-output"><h4 id="ep-output-title">6 chest electrodes → 6 chest leads</h4><div id="ep-output-leads" class="ecg-tags"><span>V1</span><span>V2</span><span>V3</span><span>V4</span><span>V5</span><span>V6</span></div><p id="ep-output-note">Horizontal plane. V4, V5, and V6 stay at the same horizontal level.</p></div>
+              </div>
+            </div>
+            <details class="ecg-details"><summary>Placement reference</summary><p>Standard diagnostic placement uses limb sites, rather than the torso sites used in some monitoring configurations. Source: Philips IntelliVue MX400–550 Instructions for Use, “Conventional 12-Lead ECG,” p. 166.</p><a href="https://www.documents.philips.com/assets/Instruction%20for%20Use/20260424/83cba6c0fe91400ea93ab436008655e7.pdf" target="_blank" rel="noopener noreferrer">Open Philips electrode placement reference</a><p>Placement confidence: high. The drawings are simplified teaching schematics.</p></details>
+          </div>
+          <div class="ecg-takeaway"><strong>I, II, III … then aVR, aVL, aVF</strong><span>Remember aVL. There is no standard limb lead called IV.</span></div>
+        </article>
+        <article id="ecg-lesson-2" class="ecg-lesson" hidden>
+          <h3>One heart, two viewing planes</h3>
+          <div class="ecg-families">
+            <div><h4>Frontal · limb leads</h4><svg class="ecg-plane" viewBox="0 0 240 140" role="img" aria-label="Schematic frontal plane, a vertical sheet"><rect x="55" y="16" width="130" height="108" rx="8" fill="#e5f2fa" stroke="#0066a1"/><path d="M120 34V106 M75 70H165" stroke="#0066a1" stroke-width="1.5"/><circle cx="120" cy="70" r="12" fill="#0066a1"/></svg><p>Picture a clock face in front of the heart. The six limb leads look from different directions within that vertical plane.</p></div>
+            <div><h4>Horizontal · chest leads</h4><svg class="ecg-plane" viewBox="0 0 240 140" role="img" aria-label="Schematic horizontal plane, a flat sheet"><path d="M25 88L80 38H215L160 98H25Z" fill="#e5f2fa" stroke="#0066a1"/><path d="M63 70H182 M99 90L139 49" stroke="#0066a1" stroke-width="1.5"/><ellipse cx="122" cy="70" rx="14" ry="8" fill="#0066a1"/></svg><p>Picture a slice across the chest. V1–V6 give complementary views within that horizontal plane.</p></div>
+          </div>
+          <p class="ecg-note">Schematics of planes, not electrode placement diagrams.</p>
+          <div class="ecg-takeaway"><strong>Multiple angles reveal more of the picture</strong><span>A change may be easier to see in leads facing it. The leads provide complementary electrical views, rather than photographs.</span></div>
+        </article>
+        <div class="pq-actions"><button id="ecg-prev-lesson" type="button" class="ecg-secondary cursor-interaction" disabled>Previous</button><button id="ecg-next-lesson" type="button" class="pq-primary cursor-interaction">Next lesson</button><span id="ecg-lesson-count" class="ecg-note" aria-live="polite">Lesson 1 of 3</span></div>
+        <details class="ecg-details"><summary>Recall plan &amp; reference</summary><p>Try retrieval before reopening the lesson. Planned reviews: about 1, 3, 7, 14, and 30 days after learning, then monthly. Missed concepts return sooner; the weekly mixed checkpoint adds no new teaching.</p><p>This app does not schedule reminders or save progress between page loads.</p><a href="https://www.merckmanuals.com/professional/cardiovascular-disorders/cardiovascular-tests-and-procedures/electrocardiography" target="_blank" rel="noopener noreferrer">Clinical reference: Merck Manual — Electrocardiography</a><p>Content confidence: high.</p></details>
+      </section>
+      <section id="ecg-practice" aria-labelledby="ecg-practice-title" hidden>
+        <div class="pq-meta"><span>CHAPTER 1 · LEAD FOUNDATIONS</span><span id="ecg-practice-count">0 of 12 placed</span></div>
+        <h2 id="ecg-practice-title">Put each lead in its family</h2>
+        <p class="ecg-intro">Choose a lead, then choose its family. Feedback appears immediately; you can correct a mistake.</p>
+        <div id="ecg-lead-bank" class="ecg-lead-bank" role="group" aria-label="Leads to classify"></div>
+        <div class="ecg-family-targets" role="group" aria-label="Choose the selected lead’s family">
+          <button id="ecg-target-limb" type="button" class="ecg-target cursor-interaction" disabled><strong>Limb leads</strong><span>Frontal plane</span></button>
+          <button id="ecg-target-chest" type="button" class="ecg-target cursor-interaction" disabled><strong>Chest leads</strong><span>Horizontal plane</span></button>
+        </div>
+        <div id="ecg-practice-feedback" class="pq-feedback" aria-live="polite">Select a lead to begin.</div>
+        <div id="ecg-placed" class="ecg-placed" hidden><div><h4>Limb · frontal</h4><div id="ecg-placed-limb" class="ecg-tags"></div></div><div><h4>Chest · horizontal</h4><div id="ecg-placed-chest" class="ecg-tags"></div></div></div>
+        <div class="pq-actions"><button id="ecg-reset-practice" type="button" class="ecg-secondary cursor-interaction">Restart practice</button><a href="#ecg-recall" data-section="recall" class="pq-primary ecg-action-link cursor-interaction">Try Recall</a></div>
+      </section>
+      <section id="ecg-recall" aria-labelledby="pq-question" hidden>
+      <div class="pq-meta"><span>CHAPTER 1 · LEAD FOUNDATIONS</span><span id="pq-count">Question 1 of 3</span></div>
+      <div class="pq-track" role="progressbar" aria-label="Questions completed" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0"><div id="pq-progress"></div></div>
+      <div class="pq-kicker"><span aria-hidden="true">↻</span> Recall practice</div>
+      <h2 id="pq-question">How many electrodes are used to record a standard 12-lead ECG?</h2>
+      <div id="pq-options" class="pq-options" role="group" aria-labelledby="pq-question"></div>
+      <div id="pq-feedback" class="pq-feedback" aria-live="polite" hidden></div>
+      <div class="pq-actions"><button id="pq-check" class="pq-primary cursor-interaction" type="button" disabled>Check answer</button><span id="pq-status">Select one answer</span></div>
+      </section>
+    </main>
+    <footer class="pq-footer"><nav class="ecg-navigation" aria-label="Learning sections"><a href="#ecg-learn" data-section="learn" aria-current="page" class="cursor-interaction">Learn</a><span aria-hidden="true">·</span><a href="#ecg-practice" data-section="practice" class="cursor-interaction">Practice</a><span aria-hidden="true">·</span><a href="#ecg-recall" data-section="recall" class="cursor-interaction">Recall</a></nav><span>Philips-inspired concept</span></footer>
+    </div>
+    <div id="nc-new-chapters">
+      <main class="pq-main">
+        <div class="pq-meta"><span id="nc-chapter-label">CHAPTER 2 · PLACE THE ELECTRODES</span><span id="nc-mode-label">Learn · about 5–7 min per chapter</span></div>
+        <section id="nc-learn" aria-labelledby="nc-learn-title">
+          <h2 id="nc-learn-title">Place the electrodes</h2>
+          <div id="nc-lesson-tabs" class="ecg-lessons" aria-label="Choose a lesson"></div>
+          <h3 id="nc-lesson-title"></h3>
+          <div id="nc-lesson-text" class="nc-prose"></div>
+          <div id="nc-lesson-visual" class="nc-visual"></div>
+          <div class="ecg-takeaway"><strong id="nc-lesson-cue"></strong><span id="nc-lesson-point"></span></div>
+          <div class="pq-actions"><button id="nc-previous" type="button" class="ecg-secondary cursor-interaction">Previous</button><button id="nc-next" type="button" class="pq-primary cursor-interaction">Next lesson</button><span id="nc-lesson-position" class="ecg-note" aria-live="polite"></span></div>
+          <details class="ecg-details"><summary>Reference &amp; recall plan</summary><div id="nc-sources"></div><p>Review plan: retrieve first at roughly 1, 3, 7, 14, and 30 days, then monthly. Missed concepts return sooner. Each Recall here includes two questions from earlier chapters.</p><p>Progress stays while you switch chapters on this page. Reloading the page starts a new session. Reminders are not scheduled by this app. Content confidence: high.</p></details>
+        </section>
+        <section id="nc-practice" aria-labelledby="nc-practice-title" hidden>
+          <h2 id="nc-practice-title"></h2><p id="nc-practice-intro" class="ecg-intro"></p>
+          <div class="nc-practice-status"><span id="nc-practice-progress"></span><span id="nc-practice-selected"></span></div>
+          <div id="nc-practice-items" class="nc-item-bank" role="group" aria-label="Choose an item to match"></div>
+          <div id="nc-practice-answers" class="nc-answer-bank" role="group" aria-label="Choose its match"></div>
+          <div id="nc-practice-feedback" class="pq-feedback" aria-live="polite"></div>
+          <div class="pq-actions"><button id="nc-practice-reset" type="button" class="ecg-secondary cursor-interaction">Restart practice</button><a href="#nc-recall" data-nc-mode="recall" class="pq-primary ecg-action-link cursor-interaction">Try Recall</a></div>
+        </section>
+        <section id="nc-recall" aria-labelledby="nc-recall-title" hidden>
+          <div class="pq-track" role="progressbar" id="nc-recall-progress" aria-label="Recall questions completed" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><div id="nc-recall-bar"></div></div>
+          <div class="pq-kicker" id="nc-recall-origin">This chapter</div><h2 id="nc-recall-title"></h2>
+          <div id="nc-recall-options" class="pq-options" role="group" aria-labelledby="nc-recall-title"></div>
+          <div id="nc-recall-feedback" class="pq-feedback" aria-live="polite" hidden></div>
+          <div class="pq-actions"><button id="nc-recall-action" class="pq-primary cursor-interaction" type="button">Check answer</button><span id="nc-recall-status" class="ecg-note"></span></div>
+        </section>
+      </main>
+      <footer class="pq-footer"><nav class="ecg-navigation" aria-label="Learning sections"><a href="#nc-learn" data-nc-mode="learn" aria-current="page" class="cursor-interaction">Learn</a><span aria-hidden="true">·</span><a href="#nc-practice" data-nc-mode="practice" class="cursor-interaction">Practice</a><span aria-hidden="true">·</span><a href="#nc-recall" data-nc-mode="recall" class="cursor-interaction">Recall</a></nav><span>Philips-inspired concept</span></footer>
+    </div>
+  </section>
+</div>
+</body>
+</html>

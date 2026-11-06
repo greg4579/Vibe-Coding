@@ -31,6 +31,9 @@ jobs:
           cache-dependency-path: projects/heart-pathway-config/package-lock.json
       - run: npm ci
       - run: npm run check
+      - name: Check ECG Learning Tool
+        run: npm run check
+        working-directory: projects/ecg-learning-tool
       - name: Build project catalog and app
         run: node scripts/build-site.mjs
         working-directory: .
@@ -41,3 +44,4 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+

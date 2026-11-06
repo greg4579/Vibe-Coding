@@ -7,8 +7,9 @@ A collection of independent code projects. Each app has its own folder, README, 
 | Project                     | Description                                                           | Source                                                    | Local entry point                                          |
 | --------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------- | ---------------------------------------------------------- |
 | HEART pathway configuration | Configure the existing clinical pathway rules and reference materials | [Project README](projects/heart-pathway-config/README.md) | [Open prototype](projects/heart-pathway-config/index.html) |
+| ECG Learning Tool | Four visual ECG chapters with guided practice and mixed recall | [Project README](projects/ecg-learning-tool/README.md) | [Web entry point](projects/ecg-learning-tool/public/index.html) |
 
-The ECG learning tool can be added later as `projects/ecg-learning-tool/`. It is not included in this change.
+The ECG Learning Tool lives in its own project folder alongside HEART. Its source, dependencies, and tests remain independent.
 
 ## Start HEART
 
@@ -21,13 +22,25 @@ npm start
 
 Open **http://127.0.0.1:4173**. The app runs without installing dependencies. Install its development tools with `npm ci` when you want to run checks or tests.
 
+## Start the ECG Learning Tool
+
+From the repository root:
+
+```sh
+cd projects/ecg-learning-tool
+npm start
+```
+
+Open **http://127.0.0.1:8090**. No dependency installation is needed. Run `npm run check` from this project folder to validate and build it. Serve this app over HTTP; opening its HTML directly does not reliably load browser modules.
+
 ## How this repository is organized
 
 | Location                         | Purpose                                                      |
 | -------------------------------- | ------------------------------------------------------------ |
 | `projects/heart-pathway-config/` | HEART application, assets, scripts, tests, and documentation |
+| `projects/ecg-learning-tool/` | ECG lessons, diagrams, practice, recall, tests, and documentation |
 | `.github/workflows/`             | GitHub automation for the repository and individual projects |
-| `scripts/build-site.mjs`         | Builds the project catalog and HEART for static hosting      |
+| `scripts/build-site.mjs`         | Builds the catalog, HEART, and ECG tool for static hosting      |
 | `index.html`                     | Home page linking to the available projects                  |
 | `docs/ADDING_PROJECTS.md`        | How to add another independent project                       |
 
@@ -55,7 +68,7 @@ GitHub Actions performs these checks on relevant pull requests and pushes to `ma
 
 ## Optional web preview
 
-The repository's Pages workflow is manual. After merging these files, set **Settings → Pages → Source** to **GitHub Actions**, then run **Actions → Deploy Vibe Coding to GitHub Pages → Run workflow**. The published site has a project catalog with HEART at `/projects/heart-pathway-config/`.
+The repository's Pages workflow is manual. After merging these files, set **Settings → Pages → Source** to **GitHub Actions**, then run **Actions → Deploy Vibe Coding to GitHub Pages → Run workflow**. The published site has a project catalog with HEART at `/projects/heart-pathway-config/` and the ECG tool at `/projects/ecg-learning-tool/`. The shared workflow validates both apps and publishes them at distinct URL paths.
 
 To create the same static-site files locally:
 
@@ -70,3 +83,4 @@ Deploy the generated `_site/` folder to a static host. Building does not publish
 HEART is a UI prototype using supplied example data. Save lasts until the page is reloaded. The existing clinical evaluator and production services are separate. Project-specific details are in its README.
 
 The existing unlicensed status and third-party branding/reference terms are retained. See [LICENSE.md](LICENSE.md).
+

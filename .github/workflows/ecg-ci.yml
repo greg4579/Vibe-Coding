@@ -1,0 +1,38 @@
+name: Check ECG Learning Tool
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'projects/ecg-learning-tool/**'
+      - '.github/workflows/ecg-ci.yml'
+      - 'scripts/build-site.mjs'
+      - 'index.html'
+  pull_request:
+    paths:
+      - 'projects/ecg-learning-tool/**'
+      - '.github/workflows/ecg-ci.yml'
+      - 'scripts/build-site.mjs'
+      - 'index.html'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: projects/ecg-learning-tool
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - run: npm run check
+      - name: Build the shared project catalog
+        run: node scripts/build-site.mjs
+        working-directory: .
