@@ -1,0 +1,142 @@
+{
+  "version": "2.1.0",
+  "description": "DXL statement families that flag a patient as a possible candidate for MCOT Next (extended-wear Holter or mobile cardiac telemetry). Each rule ties a family of DXL statement codes to a priority tier, the reason-for-study keywords (candidate_reasons) that must accompany the finding, the monitoring type it warrants (recommended_monitoring), and the clinical context (candidate_when). A patient is a candidate for a criterion only when BOTH an expected finding code AND a matching reason for study are present on the same ECG.",
+  "priority_rank": {
+    "highest": 1,
+    "highest_specificity_context": 2,
+    "strong": 3
+  },
+  "criteria": [
+    {
+      "id": "sinus_pause_escape_junctional",
+      "priority": "highest",
+      "class": "clinical rule example",
+      "dxl_statement_codes": ["SARSV"],
+      "dxl_statement_family": "Sinus pause; escape/junctional rhythm statements",
+      "candidate_when": "Unexplained syncope, presyncope, or severe episodic dizziness, and the patient is safe for outpatient care.",
+      "candidate_reasons": [
+        "syncope",
+        "presyncope",
+        "dizziness",
+        "dizzy",
+        "lightheaded",
+        "lightheadedness",
+        "collapse",
+        "loss of consciousness"
+      ],
+      "recommended_monitoring": "mobile_cardiac_telemetry",
+      "context": null,
+      "sources": []
+    },
+    {
+      "id": "new_bifascicular_or_lbbb",
+      "priority": "highest",
+      "class": "clinical rule example",
+      "dxl_statement_codes": ["RLAFB", "RLPFB", "LBBB"],
+      "dxl_statement_family": "New RBBB+LAFB (RLAFB), RBBB+LPFB (RLPFB), or LBBB",
+      "candidate_when": "Unexplained syncope or presyncope and recurrence is plausible within 2-4 weeks.",
+      "candidate_reasons": ["syncope", "presyncope", "collapse", "loss of consciousness"],
+      "recommended_monitoring": "extended_wear_holter",
+      "context": "new",
+      "sources": []
+    },
+    {
+      "id": "post_tavr_conduction_disturbance",
+      "priority": "highest_specificity_context",
+      "class": "clinical rule example",
+      "dxl_statement_codes": ["LBBB", "1AVB"],
+      "dxl_statement_family": "New/progressive LBBB, PR prolongation/1AVB, or AV-conduction changes after TAVR",
+      "candidate_when": "Conduction disturbance is new or progressive after TAVR; ACC supports at least 14 days of outpatient monitoring when the disturbance progresses.",
+      "candidate_reasons": [
+        "tavr",
+        "post-tavr",
+        "post tavr",
+        "aortic valve replacement",
+        "conduction disturbance"
+      ],
+      "recommended_monitoring": "extended_wear_holter",
+      "context": "post_tavr",
+      "sources": [
+        "https://www.acc.org/Latest-in-Cardiology/ten-points-to-remember/2020/10/20/20/59/2020-ACC-Expert-Consensus-Conduction-Disturbances"
+      ]
+    },
+    {
+      "id": "ventricular_ectopy_nsvt",
+      "priority": "strong",
+      "class": "clinical rule example",
+      "dxl_statement_codes": ["RVPC", "NSVT", "PVPC", "VBIG", "VTRI", "MFRVPC"],
+      "dxl_statement_family": "Confirmed NSVT (RVPC) or complex VPC patterns (PVPC, VBIG, VTRI, MFRVPC)",
+      "candidate_when": "Syncope, presyncope, or concerning palpitations plus structural heart disease, low EF, exertional symptoms, prior MI, or family history of sudden cardiac death.",
+      "candidate_reasons": [
+        "syncope",
+        "presyncope",
+        "palpitations",
+        "palpitation",
+        "structural heart disease",
+        "low ef",
+        "exertional",
+        "prior mi",
+        "sudden cardiac death"
+      ],
+      "recommended_monitoring": "mobile_cardiac_telemetry",
+      "context": null,
+      "sources": []
+    },
+    {
+      "id": "new_bundle_branch_or_intraventricular_conduction_finding",
+      "priority": "highest",
+      "class": "guidelines",
+      "dxl_statement_codes": [
+        "LBBB",
+        "RBBB",
+        "RLAFB",
+        "RLPFB",
+        "IRBBB",
+        "ILBBB",
+        "ALBBB",
+        "ARBBB",
+        "NIVCD",
+        "NIVCDL"
+      ],
+      "dxl_statement_family": "Left or right bundle branch, intraventricular conduction abnormalities",
+      "candidate_when": "New bundle branch or intraventricular conduction finding, post procedure",
+      "candidate_reasons": ["post-tavr", "post-procedure", "post-op", "pre-op", "pre-procedure"],
+      "recommended_monitoring": "mobile_cardiac_telemetry",
+      "context": "new",
+      "sources": []
+    },
+    {
+      "id": "new_or_worsening_av_conduction_delay",
+      "priority": "highest",
+      "class": "guidelines",
+      "dxl_statement_codes": ["BAVCD", "1AVB", "WENCK", "2AVB", "2AVB2", "2AVB3", "2AVB4", "2AVBV"],
+      "dxl_statement_family": "AV block any degree, wenckebach included. Mobitz type I and II",
+      "measurements": ["PR", "QRS"],
+      "measurement_thresholds": {
+        "PR": {
+          "greater_than_or_equal_to": "20 ms",
+          "description": "PR interval: onset of the P wave to the onset of the QRS complex"
+        },
+        "QRS": {
+          "greater_than_or_equal_to": "20 ms",
+          "description": "QRS duration: width of the QRS complex"
+        }
+      },
+      "candidate_when": "New AV conduction delay, post procedure",
+      "candidate_reasons": [
+        "syncope",
+        "presyncope",
+        "collapse",
+        "loss of consciousness",
+        "post-tavr",
+        "post-procedure",
+        "post-op",
+        "pre-op",
+        "pre-procedure"
+      ],
+      "recommended_monitoring": "mobile_cardiac_telemetry",
+      "context": "new",
+      "sources": []
+    }
+  ]
+}

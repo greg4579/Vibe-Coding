@@ -1,0 +1,25 @@
+{
+  "name": "heart-pathway-config-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Standalone HEART clinical pathway configuration UI prototype",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "node --test --test-concurrency=1 tests/dom.test.mjs tests/server.test.mjs",
+    "build": "node scripts/build.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test:browser": "node --test tests/browser.test.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0",
+    "playwright": "1.62.1",
+    "prettier": "3.6.2"
+  }
+}
