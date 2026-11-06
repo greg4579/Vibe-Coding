@@ -1,0 +1,44 @@
+name: Check HEART prototype
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'projects/heart-pathway-config/**'
+      - '.github/workflows/heart-ci.yml'
+      - 'scripts/build-site.mjs'
+      - 'index.html'
+  pull_request:
+    paths:
+      - 'projects/heart-pathway-config/**'
+      - '.github/workflows/heart-ci.yml'
+      - 'scripts/build-site.mjs'
+      - 'index.html'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: projects/heart-pathway-config
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: projects/heart-pathway-config/package-lock.json
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm run check
+      - run: npm test
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:browser
+      - name: Build project catalog and app
+        run: node scripts/build-site.mjs
+        working-directory: .
