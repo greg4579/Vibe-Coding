@@ -19,7 +19,18 @@ test('exported app preserves all chapters, matching corrections, mixed recall, a
       4: { V3: 2, aVF: 0, I: 3, V1: 1, V5: 3, III: 0, V4: 2, aVL: 3, V2: 1, II: 0, V6: 3 },
     };
     const recallAnswers = { 2: [2, 0, 3, 2, 1], 3: [3, 1, 2, 0, 1], 4: [2, 0, 3, 1, 2] };
-    assert(!get('nc-new-chapters').hidden);
+    // Fresh launches must begin at Chapter 1 → Learn → Lesson 1.
+    assert.equal(get('nc-chapter').value, '1');
+    assert(!get('nc-foundation').hidden);
+    assert(get('nc-new-chapters').hidden);
+    assert(!get('ecg-learn').hidden);
+    assert(get('ecg-practice').hidden);
+    assert(get('ecg-recall').hidden);
+    assert(!get('ecg-lesson-0').hidden);
+    assert(get('ecg-lesson-1').hidden);
+    assert(get('ecg-lesson-2').hidden);
+    assert.equal(get('ecg-lesson-count').textContent, 'Lesson 1 of 3');
+    assert(get('ecg-prev-lesson').disabled);
     for (const number of [2, 3, 4]) {
       chapter(number);
       assert(get('nc-foundation').hidden);

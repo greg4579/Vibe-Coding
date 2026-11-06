@@ -212,5 +212,5 @@
   });
   render();
   showSection('learn');
-  showLesson(1);
+  showLesson(0);
 })();

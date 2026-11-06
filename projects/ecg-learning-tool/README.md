@@ -21,7 +21,7 @@ Open **http://127.0.0.1:8090**. No `npm install` is needed. Serve the app over H
 | 3. Read the viewing angles | Limb compass; depolarization polarity; lead angle vs. cardiac axis | Match 6 limb leads to positive directions | 3 chapter questions + 2 from earlier chapters |
 | 4. Connect leads to heart regions | Conventional inferior, lateral, septal, and anterior groups | Sort 11 leads into 4 conventional groups; aVR remains separate | 3 chapter questions + 2 from earlier chapters |
 
-Use the chapter selector, then the **Learn · Practice · Recall** links. Each quiz can be retried. Your position and scores survive section/chapter switches in the current page session. Reloading starts a new session. The default view opens chapter 2 so you can continue after the foundations.
+The tool opens at **Chapter 1 → Learn → Lesson 1 (Sensors & views)**. Use the chapter selector, then the **Learn · Practice · Recall** links to move through the material. Each quiz can be retried. Your position and scores survive section/chapter switches in the current page session. Reloading starts a new session at Chapter 1, lesson 1.
 
 The review intervals are learning guidance, not an active scheduling feature. The app does not store long-term progress, send reminders, authenticate users, collect analytics, or submit quiz answers anywhere. Clinical reference links open external sites.
 

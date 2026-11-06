@@ -7,7 +7,7 @@ import { chapters, freshRecall } from './chapters.js';
   const get = id => root.querySelector('#' + id);
   const make = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
   const state = Object.fromEntries([2,3,4].map(ch => [ch,{mode:'learn',lesson:0,placed:new Set(),active:null,message:'Choose an item to begin.',recall:freshRecall(),angle:'II',direction:'Toward',region:'Inferior'}]));
-  let current = 2;
+  let current = 1;
   const button = (text, className, onClick) => { const node = make('button',text,className + ' cursor-interaction'); node.type='button'; node.addEventListener('click',onClick); return node; };
   const svgNode = (tag, attrs, text) => { const node = document.createElementNS('http://www.w3.org/2000/svg',tag); Object.entries(attrs || {}).forEach(([key,value])=>node.setAttribute(key,value)); if(text!==undefined)node.textContent=text; return node; };
   const textOn = (svg,x,y,text,anchor='middle',color='#16324a') => svg.append(svgNode('text',{x,y,'text-anchor':anchor,fill:color,'font-family':'Arial,sans-serif','font-size':17},text));
@@ -113,6 +113,7 @@ import { chapters, freshRecall } from './chapters.js';
   }
   function chooseChapter(value) {
     current=Number(value);const old=current===1;get('nc-foundation').hidden=!old;get('nc-new-chapters').hidden=old;
+    get('nc-chapter').value=String(current);
     if(!old)renderMode();
   }
   get('nc-chapter').addEventListener('change',event=>chooseChapter(event.target.value));
@@ -127,5 +128,5 @@ import { chapters, freshRecall } from './chapters.js';
     else if(r.index<ch.recall.length-1){r.index++;r.selected=null;r.checked=false;}else r.finished=true;
     renderRecall();
   });
-  chooseChapter(2);
+  chooseChapter(1);
 })();

@@ -13,7 +13,7 @@ Run `npm start`, then open http://127.0.0.1:8090 in a current browser.
 - In every quiz, complete one round with some mistakes, retry, then complete another round. Confirm the new round does not retain the previous score or missed-question list.
 - Switch sections and chapters mid-exercise and mid-question. Confirm the current page session preserves your position.
 - Verify reference links open in a separate tab and the app stays usable.
-- Reload the page and confirm a new session opens chapter 2.
+- Open the catalog's ECG link and confirm Chapter 1 → Learn → Lesson 1 (Sensors & views) is selected. Reload after visiting later chapters and confirm the same starting point.
 - With a screen reader, confirm labels, selected states, and live feedback are understandable.
 
 On GitHub Pages, also confirm all relative CSS/module paths load from a repository subpath. These browser/deployment checks are separate from the in-memory automated tests.
