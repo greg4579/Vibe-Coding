@@ -8,6 +8,7 @@
   <title>ECG Learning Tool</title>
   <link rel="stylesheet" href="./assets/styles.css">
   <script type="module" src="./assets/app.js"></script>
+  <script type="module" src="./assets/session.js"></script>
 </head>
 <body>
   <noscript>This learning tool needs JavaScript for chapter navigation and exercises.</noscript>
@@ -17,6 +18,15 @@
       <span class="pq-brand">PHILIPS <span>inspired learning</span></span>
       <h1 class="pq-header-label">ECG Learning</h1>
     </header>
+    <div class="ds-launch"><div><strong>Guided learning · November 9, 2026</strong><p>5–7 minutes · Recall first, then one placement application.</p></div><button id="ds-open" type="button" class="pq-primary cursor-interaction" aria-controls="ds-session">Open guided session</button></div>
+    <section id="ds-session" class="pq-main" aria-labelledby="ds-title" hidden>
+      <div class="pq-meta"><span>COURSE DAY 4 · CHAPTERS 1–2</span><span>America/New_York</span></div>
+      <h2 id="ds-title" tabindex="-1">Electrical views and reproducible placement</h2>
+      <p class="ecg-intro">Objective: explain how the recording setup affects the electrical view. This is the November 9 session, not an automatically generated daily lesson.</p>
+      <p id="ds-storage" class="ecg-note" role="status"></p>
+      <div id="ds-content"></div>
+      <div class="pq-actions"><button id="ds-close" type="button" class="ecg-secondary cursor-interaction">Back to chapters</button></div>
+    </section>
     <div class="nc-chapter-bar"><label for="nc-chapter">Your chapters</label><select id="nc-chapter" aria-label="Choose a chapter"><option value="1" selected>1 · Lead foundations</option><option value="2">2 · Place the electrodes</option><option value="3">3 · Read the viewing angles</option><option value="4">4 · Connect leads to heart regions</option></select></div>
     <div id="nc-foundation">
     <main class="pq-main">

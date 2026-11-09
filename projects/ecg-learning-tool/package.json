@@ -10,6 +10,6 @@
     "start": "node scripts/serve.mjs",
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check public/assets/app.js && node --check public/assets/foundations.js && node --check public/assets/chapters.js && npm test && npm run build"
+    "check": "node --check public/assets/session.js && node --check public/assets/app.js && node --check public/assets/foundations.js && node --check public/assets/chapters.js && npm test && npm run build"
   }
 }
