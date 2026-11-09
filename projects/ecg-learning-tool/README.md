@@ -12,6 +12,12 @@ npm start
 
 Open **http://127.0.0.1:8090**. No `npm install` is needed. Serve the app over HTTP; opening `public/index.html` directly with a `file://` URL will not reliably load browser modules.
 
+## Guided session
+
+Use **Open guided session** above the chapter selector for the curated November 9, 2026 session. A direct link can use `?session=2026-11-09`. It has two written retrieval questions before teaching, two placement questions, then answer comparison and explicit self-assessment. Missed or prompted answers require a short teach-back. The dated session is not an automatic daily lesson generator.
+
+Written responses and self-assessments are saved in this browser’s local storage, with a visible fallback when unavailable. They are not sent to a server or synchronized with ChatGPT. No answers, scores, or mastery claims from chat are preloaded. Self-assessment does not mark a chapter retained. The summary shows review targets and separates these from completed reviews. Chapter browsing still starts at Chapter 1, lesson 1.
+
 ## Included learning content
 
 | Chapter | Learn | Practice | Recall |
@@ -23,7 +29,7 @@ Open **http://127.0.0.1:8090**. No `npm install` is needed. Serve the app over H
 
 The tool opens at **Chapter 1 → Learn → Lesson 1 (Sensors & views)**. Use the chapter selector, then the **Learn · Practice · Recall** links to move through the material. Each quiz can be retried. Your position and scores survive section/chapter switches in the current page session. Reloading starts a new session at Chapter 1, lesson 1.
 
-The review intervals are learning guidance, not an active scheduling feature. The app does not store long-term progress, send reminders, authenticate users, collect analytics, or submit quiz answers anywhere. Clinical reference links open external sites.
+The review intervals are learning guidance, not an active scheduling feature. The chapter quizzes do not store long-term progress. The app does not send reminders, authenticate users, collect analytics, or submit quiz answers anywhere. Clinical reference links open external sites.
 
 ## Validate and build
 

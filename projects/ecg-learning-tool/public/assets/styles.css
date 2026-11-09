@@ -121,3 +121,12 @@ body { margin: 0; padding: 24px 16px 48px; }
 #ecg-philips-quiz .ep-diagram .ep-orientation,
 #ecg-philips-quiz .ep-diagram .ep-anatomy { font-size: 18px; }
 
+
+/* Guided sessions reuse the chapter shell and keep answer keys out of the recall step. */
+#ecg-philips-quiz .ds-launch { padding:20px 26px; background:#eef7fc; display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+#ecg-philips-quiz .ds-launch p { margin:6px 0 0; font-size:14px; }
+#ecg-philips-quiz .ds-question { border:1px solid var(--pq-rule); border-radius:10px; padding:18px; margin:18px 0; }
+#ecg-philips-quiz .ds-question label { display:block; line-height:1.6; margin-bottom:10px; }
+#ecg-philips-quiz .ds-question textarea { display:block; width:100%; min-height:110px; resize:vertical; padding:12px; border:1px solid #7799b0; border-radius:6px; font:inherit; line-height:1.5; color:var(--pq-ink); background:white; }
+#ecg-philips-quiz .ds-question select { max-width:100%; font:inherit; padding:10px; margin:12px 0; }
+#ecg-philips-quiz .ds-question p, #ecg-philips-quiz #ds-content > p { line-height:1.65; font-size:14px; }
