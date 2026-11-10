@@ -96,3 +96,7 @@ GitHub reference: [configure a publishing source](https://docs.github.com/en/pag
 ## Branding and licensing
 
 This is an educational prototype with Philips-inspired colors and typography; it is not an official Philips product. The repository is marked `UNLICENSED`; an open-source license has not been selected. Reference PDFs are linked rather than bundled.
+
+
+
+November 10 guided session: `?session=2026-11-10` (default launch). November 9 remains available at `?session=2026-11-09`, with a separate browser storage key. November 10 starts with Chapter 1 corrected-error recall and Chapter 2's three-day placement check, followed by acquisition-versus-clinical-change applications. No completion, scores, or durable mastery are imported from chat. References were checked November 10, 2026.

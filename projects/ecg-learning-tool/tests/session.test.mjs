@@ -20,7 +20,7 @@ test('guided session withholds answers, requires attempts and teach-back, saves 
   const get = id => document.getElementById(id);
   let saved;
   const storage = { getItem:()=>saved, setItem:(_key,value)=>{saved=value;} };
-  mountSession(document,storage,'?session=2026-11-09');
+  mountSession(document,storage,'?session=2026-11-10');
   assert.equal(get('ds-session').hidden,false);
   assert.equal(get('nc-foundation').hidden,true);
   assert(!get('ds-content').textContent.includes(session.questions[0][2]));
@@ -37,14 +37,28 @@ test('guided session withholds answers, requires attempts and teach-back, saves 
   assert(get('ds-content').textContent.includes('Current retention: unknown'));
   assert(get('ds-content').textContent.includes('Recheck missed/prompted concepts'));
   assert.equal(restore(saved).stage,3);
-  const reloaded=createDocument(html);mountSession(reloaded,storage,'?session=2026-11-09');
+  const reloaded=createDocument(html);mountSession(reloaded,storage,'?session=2026-11-10');
   assert(reloaded.getElementById('ds-content').textContent.includes('Responses recorded'));
   get('ds-close').click();assert.equal(get('nc-foundation').hidden,false);
 });
 
 test('unavailable storage leaves guided recall usable and warns about persistence', async () => {
   const document=createDocument(await readFile(new URL('../public/index.html',import.meta.url),'utf8'));
-  mountSession(document,undefined,'?session=2026-11-09');
+  mountSession(document,undefined,'?session=2026-11-10');
   assert(document.getElementById('ds-storage').textContent.includes('unavailable'));
   assert(document.getElementById('ds-answer-0'));
+});
+
+
+
+test('dated sessions preserve independent storage and old deep links', async () => {
+  const html = await readFile(new URL('../public/index.html',import.meta.url),'utf8');
+  const keys=[];
+  const storage={getItem:key=>{keys.push(key);return null;},setItem:()=>{}};
+  const old=createDocument(html);mountSession(old,storage,'?session=2026-11-09');
+  const current=createDocument(html);mountSession(current,storage,'?session=2026-11-10');
+  assert.deepEqual(keys,['ecg-guided-session-2026-11-09','ecg-guided-session-2026-11-10']);
+  assert(old.getElementById('ds-date').textContent.includes('November 9'));
+  assert(current.getElementById('ds-date').textContent.includes('November 10'));
+  assert(current.getElementById('ds-content').textContent.includes('three-day recall'));
 });

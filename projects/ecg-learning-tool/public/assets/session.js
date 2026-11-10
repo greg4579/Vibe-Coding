@@ -1,5 +1,5 @@
 // Dated sessions are curated content. Written answers are self-assessed, never AI-graded.
-export const session = {
+const november9 = {
   id: '2026-11-09',
   questions: [
     ['Chapter 1 · delayed recall', 'Name all six limb leads and their viewing plane. Then name the chest leads and their viewing plane.', 'I, II, III, aVR, aVL, aVF: frontal plane. V1–V6: horizontal (transverse) plane. There is no standard limb lead IV. These planes describe electrical perspectives, not electrode counts.'],
@@ -8,6 +8,16 @@ export const session = {
     ['Chapter 2 · hypothetical application', 'V1 was recorded at the correct height but on the patient’s left sternal border. A colleague proposes moving the V1 waveform to the other side of the screen. Explain why that does not correct the recording and what must change.', 'Screen position does not change the voltage already recorded. The V1 electrode belongs at the fourth intercostal space at the patient’s right sternal border; correct the physical placement and acquire a new recording. Placement can change waveforms, so a difference alone cannot establish a new cardiac abnormality.'],
   ],
 };
+export const session = {
+  id: '2026-11-10',
+  questions: [
+    ['Chapter 1 · delayed recall', 'Without opening earlier lessons, list all six limb leads and their viewing plane. Which leads supply the other viewing plane, and what is that plane?', november9.questions[0][2]],
+    ['Chapter 2 · three-day recall', 'You are instructing a colleague who is facing the patient. Specify the exact standard locations of V1 and V2, including whose right and left you mean.', november9.questions[2][2]],
+    ['Chapter 2 · hypothetical application', 'Two recordings have different V1/V2 waveforms. The second used electrodes two rib spaces above the standard locations. What measurement changed, and what can you conclude about a change in the heart from this difference alone?', 'The physical recording sites changed, altering the electrical measurement. High V1/V2 placement can alter waveforms and mimic abnormalities. The difference alone cannot establish a cardiac change or exclude one; correct placement, repeat acquisition, and clinical assessment are needed.'],
+    ['Chapter 2 · product explanation', 'A colleague says: “Our serial-comparison software detected a difference, so it has established disease progression.” Explain the missing reasoning in two sentences, including one acquisition check.', 'Detecting a waveform difference does not establish its clinical cause. Check electrode placement and recording comparability; clinical context and qualified interpretation are needed to decide whether the difference reflects disease, acquisition variation, or both.'],
+  ],
+};
+export const sessions = { [november9.id]: november9, [session.id]: session };
 export const localDate = (now = new Date()) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year:'numeric', month:'2-digit', day:'2-digit' }).format(now);
 export function addDays(day, amount) {
   const date = new Date(day + 'T12:00:00Z');
@@ -30,9 +40,15 @@ export function restore(raw) {
   } catch { return blank; }
 }
 export function mountSession(document, storage, search = '') {
+  const requested = new URLSearchParams(search).get('session');
+  const selected = sessions[requested] || session;
   const get = id => document.getElementById(id);
+  const isNovember9 = selected.id === november9.id;
+  get('ds-date').textContent = 'Guided learning · November ' + (isNovember9 ? '9' : '10') + ', 2026';
+  get('ds-day').textContent = 'COURSE DAY ' + (isNovember9 ? '4' : '5') + ' · CHAPTERS 1–2';
+  get('ds-intro').textContent = 'Objective: distinguish a recording difference from a change in the heart. Curated session for ' + selected.id + '; earlier delivery does not establish completion.';
   const container = get('ds-content');
-  const key = 'ecg-guided-session-' + session.id;
+  const key = 'ecg-guided-session-' + selected.id;
   let data = restore(null), saved = true;
   try { data = restore(storage.getItem(key)); } catch { saved = false; }
   const make = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if(className) node.className = className; return node; };
@@ -64,7 +80,11 @@ export function mountSession(document, storage, search = '') {
     const reviewing = data.stage === 2;
     container.append(make('h3',reviewing ? 'Compare and explain · self-assessment' : data.stage === 0 ? '1 · Retrieve first — about 2 minutes' : '2 · Apply placement — about 3 minutes'));
     if(data.stage === 0) container.append(make('p','Answer without opening the chapters. If you need help, write “unsure” before continuing; record that as prompted or missed during comparison. No prior chat answers or quiz scores have been imported.'));
-    if(data.stage === 1) {
+    if(data.stage === 1 && !isNovember9) {
+      container.append(make('p','A comparison detects a difference between measurements. Explaining its cause requires checking acquisition conditions as well as the patient’s clinical situation. Electrode position is part of the measurement: changing it can change the tracing even when the heart has not changed.'));
+      container.append(make('p','This does not prove a difference is harmless. Placement error and disease can coexist. Apply this distinction to the hypothetical cases below.'));
+    }
+    if(data.stage === 1 && isNovember9) {
       container.append(make('p','Reproducible placement needs an anatomical level, a landmark, and the patient’s side. A lead label states the intended view; it does not prove where the electrode was placed. Screen layout and physical placement are different things.'));
       container.append(make('p','Moving an electrode changes the measurement. A waveform difference can reflect placement or a cardiac change, and both can coexist. Read this once, then answer from memory.'));
     }
@@ -75,7 +95,7 @@ export function mountSession(document, storage, search = '') {
     const update = () => { next.disabled = !valid(); save(); };
     const indices = reviewing ? [0,1,2,3] : data.stage===0 ? [0,1] : [2,3];
     for(const i of indices) {
-      const [origin,prompt,answer] = session.questions[i];
+      const [origin,prompt,answer] = selected.questions[i];
       const card = make('article',undefined,'ds-question');
       card.append(make('p',origin,'ecg-note'));
       const label=make('label',(i+1)+'. '+prompt);label.setAttribute('for','ds-answer-'+i);
@@ -107,9 +127,10 @@ export function mountSession(document, storage, search = '') {
   };
   get('ds-open').addEventListener('click',open);
   get('ds-close').addEventListener('click',()=>{get('ds-session').hidden=true;bar.hidden=false;for(const [id,hidden] of previous)get(id).hidden=hidden;get('ds-open').focus();});
-  if(new URLSearchParams(search).get('session')===session.id)open();
+  if(sessions[requested])open();
 }
 if(typeof document !== 'undefined') {
   let storage;try { storage=globalThis.localStorage; } catch { /* fall back to page-only state */ }
   mountSession(document,storage,globalThis.location?.search || '');
 }
+
