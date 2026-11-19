@@ -14,7 +14,7 @@ Open **http://127.0.0.1:8090**. No `npm install` is needed. Serve the app over H
 
 ## Guided session
 
-Use **Open guided session** above the chapter selector for the curated November 9, 2026 session. A direct link can use `?session=2026-11-09`. It has two written retrieval questions before teaching, two placement questions, then answer comparison and explicit self-assessment. Missed or prompted answers require a short teach-back. The dated session is not an automatic daily lesson generator.
+Choose a date from November 9–19, 2026 and select **Open guided session**. Link directly to a session with a query such as `?session=2026-11-19`. Each session has four written prompts, answer comparison, and self-assessment. Missed or prompted answers require a short teach-back. November 12 and 19 are cumulative recall sessions and withhold teaching until after the attempt. Add future sessions to `public/assets/session-content.js`.
 
 Written responses and self-assessments are saved in this browser’s local storage, with a visible fallback when unavailable. They are not sent to a server or synchronized with ChatGPT. No answers, scores, or mastery claims from chat are preloaded. Self-assessment does not mark a chapter retained. The summary shows review targets and separates these from completed reviews. Chapter browsing still starts at Chapter 1, lesson 1.
 
@@ -99,4 +99,3 @@ This is an educational prototype with Philips-inspired colors and typography; it
 
 
 
-November 10 guided session: `?session=2026-11-10` (default launch). November 9 remains available at `?session=2026-11-09`, with a separate browser storage key. November 10 starts with Chapter 1 corrected-error recall and Chapter 2's three-day placement check, followed by acquisition-versus-clinical-change applications. No completion, scores, or durable mastery are imported from chat. References were checked November 10, 2026.

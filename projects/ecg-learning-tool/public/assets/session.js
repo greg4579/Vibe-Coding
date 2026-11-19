@@ -1,23 +1,7 @@
-// Dated sessions are curated content. Written answers are self-assessed, never AI-graded.
-const november9 = {
-  id: '2026-11-09',
-  questions: [
-    ['Chapter 1 · delayed recall', 'Name all six limb leads and their viewing plane. Then name the chest leads and their viewing plane.', 'I, II, III, aVR, aVL, aVF: frontal plane. V1–V6: horizontal (transverse) plane. There is no standard limb lead IV. These planes describe electrical perspectives, not electrode counts.'],
-    ['Chapter 1 · mental model', 'How can 10 electrodes produce 12 leads? Explain the difference between an electrode and a lead.', 'An electrode is a skin sensor. A lead records a defined voltage difference, giving an electrical perspective. Four limb electrodes and six chest electrodes support six limb leads and six chest leads; the electrodes are shared in forming voltage differences.'],
-    ['Chapter 2 · placement recall', 'From memory, describe the standard positions of V1 and V2. Include the intercostal space, sternal border, and whose right and left you mean.', 'V1: fourth intercostal space at the patient’s right sternal border. V2: fourth intercostal space at the patient’s left sternal border. Intercostal spaces are gaps between ribs.'],
-    ['Chapter 2 · hypothetical application', 'V1 was recorded at the correct height but on the patient’s left sternal border. A colleague proposes moving the V1 waveform to the other side of the screen. Explain why that does not correct the recording and what must change.', 'Screen position does not change the voltage already recorded. The V1 electrode belongs at the fourth intercostal space at the patient’s right sternal border; correct the physical placement and acquire a new recording. Placement can change waveforms, so a difference alone cannot establish a new cardiac abnormality.'],
-  ],
-};
-export const session = {
-  id: '2026-11-10',
-  questions: [
-    ['Chapter 1 · delayed recall', 'Without opening earlier lessons, list all six limb leads and their viewing plane. Which leads supply the other viewing plane, and what is that plane?', november9.questions[0][2]],
-    ['Chapter 2 · three-day recall', 'You are instructing a colleague who is facing the patient. Specify the exact standard locations of V1 and V2, including whose right and left you mean.', november9.questions[2][2]],
-    ['Chapter 2 · hypothetical application', 'Two recordings have different V1/V2 waveforms. The second used electrodes two rib spaces above the standard locations. What measurement changed, and what can you conclude about a change in the heart from this difference alone?', 'The physical recording sites changed, altering the electrical measurement. High V1/V2 placement can alter waveforms and mimic abnormalities. The difference alone cannot establish a cardiac change or exclude one; correct placement, repeat acquisition, and clinical assessment are needed.'],
-    ['Chapter 2 · product explanation', 'A colleague says: “Our serial-comparison software detected a difference, so it has established disease progression.” Explain the missing reasoning in two sentences, including one acquisition check.', 'Detecting a waveform difference does not establish its clinical cause. Check electrode placement and recording comparability; clinical context and qualified interpretation are needed to decide whether the difference reflects disease, acquisition variation, or both.'],
-  ],
-};
-export const sessions = { [november9.id]: november9, [session.id]: session };
+import { sessionContent } from './session-content.js';
+
+export const sessions = Object.fromEntries(sessionContent.map(entry => [entry.id, entry]));
+export const session = sessionContent.at(-1);
 export const localDate = (now = new Date()) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year:'numeric', month:'2-digit', day:'2-digit' }).format(now);
 export function addDays(day, amount) {
   const date = new Date(day + 'T12:00:00Z');
@@ -41,25 +25,52 @@ export function restore(raw) {
 }
 export function mountSession(document, storage, search = '') {
   const requested = new URLSearchParams(search).get('session');
-  const selected = sessions[requested] || session;
   const get = id => document.getElementById(id);
-  const isNovember9 = selected.id === november9.id;
-  get('ds-date').textContent = 'Guided learning · November ' + (isNovember9 ? '9' : '10') + ', 2026';
-  get('ds-day').textContent = 'COURSE DAY ' + (isNovember9 ? '4' : '5') + ' · CHAPTERS 1–2';
-  get('ds-intro').textContent = 'Objective: distinguish a recording difference from a change in the heart. Curated session for ' + selected.id + '; earlier delivery does not establish completion.';
+  const picker = get('ds-picker');
   const container = get('ds-content');
-  const key = 'ecg-guided-session-' + selected.id;
-  let data = restore(null), saved = true;
-  try { data = restore(storage.getItem(key)); } catch { saved = false; }
+  const formatDate = new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeZone: 'UTC' });
+  const responses = new Map();
+  let selected, key, data;
+
+  function selectSession(id) {
+    selected = sessions[id];
+    picker.value = id;
+    get('ds-day').textContent = 'Chapters 1–2 · ' + formatDate.format(new Date(id));
+    get('ds-title').textContent = selected.title;
+    get('ds-intro').textContent = selected.objective ? 'Objective: ' + selected.objective + '.' : '';
+    key = 'ecg-guided-session-' + id;
+    if (!responses.has(id)) {
+      let raw;
+      try { raw = storage.getItem(key); } catch { /* use in-memory responses */ }
+      responses.set(id, restore(raw));
+    }
+    data = responses.get(id);
+  }
+  for (const entry of [...sessionContent].reverse()) {
+    const option = document.createElement('option');
+    option.value = entry.id;
+    option.textContent = formatDate.format(new Date(entry.id));
+    picker.append(option);
+  }
+  const hasDeepLink = Object.hasOwn(sessions, requested);
+  selectSession(hasDeepLink ? requested : session.id);
+  picker.addEventListener('change', () => {
+    selectSession(picker.value);
+    if (!get('ds-session').hidden) {
+      render();
+      save();
+    }
+  });
   const make = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if(className) node.className = className; return node; };
   const save = () => {
+    let saved;
     try { storage.setItem(key, JSON.stringify(data)); saved = true; } catch { saved = false; }
     get('ds-storage').textContent = saved ? 'Responses saved in this browser only. They do not sync with ChatGPT or other devices. Self-assessment is not verified grading.' : 'Browser storage is unavailable. Responses remain on this page only; copy them before leaving. Self-assessment is not verified grading.';
   };
   const button = (label, action) => { const node = make('button',label,'pq-primary cursor-interaction'); node.type='button'; node.addEventListener('click',action); return node; };
   const sources = () => {
     const p = make('p','References · ');
-    for (const [label,url] of [['LITFL: lead positioning','https://litfl.com/ecg-lead-positioning/'], ['LITFL: V1/V2 misplacement','https://litfl.com/misplacement-of-v1-and-v2/']]) {
+    for (const [label,url] of selected.sources || [['LITFL: lead positioning','https://litfl.com/ecg-lead-positioning/'], ['LITFL: V1/V2 misplacement','https://litfl.com/misplacement-of-v1-and-v2/']]) {
       const a = make('a',label); a.href=url; a.target='_blank'; a.rel='noopener noreferrer'; p.append(a,make('span',' · '));
     }
     container.append(p,make('p','Clinical content confidence: high. Current retention: unknown. No chapter is marked retained from this session.'));
@@ -73,18 +84,45 @@ export function mountSession(document, storage, search = '') {
       container.append(make('p','Self-reported unprompted recall: '+(strengths.join(', ') || 'none')+'. These are not independently graded strengths.'));
       container.append(make('p','Needs recall: '+(revisit.join(', ') || 'all concepts still need a separate-day check')+'.'));
       if(revisit.length) container.append(make('p','Recheck missed/prompted concepts next session (target '+addDays(data.completedOn,1)+'), then around '+addDays(data.completedOn,3)+' and '+addDays(data.completedOn,7)+'.'));
-      container.append(make('p','Chapter targets from introduction: Chapter 1 (Nov 6): Nov 7, 9, 13, 20, Dec 6; Chapter 2 (Nov 7): Nov 8, 10, 14, 21, Dec 7. Monthly maintenance follows. These are targets, not evidence that reviews occurred.'));
-      container.append(make('p','Two correct unprompted recalls on separate days are needed before retention can be established; keep reviewing afterward. Course day 7, November 12, is cumulative recall without new teaching.'));
+      container.append(make('p','Check for correct unprompted recall again on a separate day before marking a concept retained.'));
+      const summary = make('textarea');
+      summary.readOnly = true;
+      summary.setAttribute('aria-label', 'Numbered responses to copy');
+      summary.value = data.answers.map((answer, index) => {
+        const teachback = data.teachbacks[index] ? ' Teach-back: ' + data.teachbacks[index] : '';
+        return (index + 1) + '. ' + answer + ' [' + data.ratings[index] + ']' + teachback;
+      }).join('\n\n');
+      container.append(make('p', 'Copy your responses for review.'), summary);
       container.append(button('Review my responses',()=>{data.stage=2;save();render();})); sources(); return;
     }
     const reviewing = data.stage === 2;
-    container.append(make('h3',reviewing ? 'Compare and explain · self-assessment' : data.stage === 0 ? '1 · Retrieve first — about 2 minutes' : '2 · Apply placement — about 3 minutes'));
+    container.append(make('h3',reviewing ? 'Compare and explain · self-assessment' : data.stage === 0 ? '1 · Retrieve first — about 2 minutes' : selected.cumulative ? '2 · Continue mixed recall' : '2 · Apply the concept'));
     if(data.stage === 0) container.append(make('p','Answer without opening the chapters. If you need help, write “unsure” before continuing; record that as prompted or missed during comparison. No prior chat answers or quiz scores have been imported.'));
-    if(data.stage === 1 && !isNovember9) {
+    if (data.stage === 1 && selected.cumulative) {
+      container.append(make('p', 'Continue from memory. Write “unsure” if needed.'));
+    }
+    if (data.stage === 1 && selected.teaching) {
+      container.append(make('p', selected.teaching));
+      if (selected.concepts) {
+        const table = make('table');
+        table.setAttribute('aria-label', 'Sensor, measurement, and presentation');
+        const body = make('tbody');
+        for (const [term, meaning] of selected.concepts) {
+          const row = make('tr');
+          const heading = make('th', term);
+          heading.setAttribute('scope', 'row');
+          row.append(heading, make('td', meaning));
+          body.append(row);
+        }
+        table.append(body);
+        container.append(table);
+      }
+    }
+    if (data.stage === 1 && selected.id === '2026-11-10') {
       container.append(make('p','A comparison detects a difference between measurements. Explaining its cause requires checking acquisition conditions as well as the patient’s clinical situation. Electrode position is part of the measurement: changing it can change the tracing even when the heart has not changed.'));
       container.append(make('p','This does not prove a difference is harmless. Placement error and disease can coexist. Apply this distinction to the hypothetical cases below.'));
     }
-    if(data.stage === 1 && isNovember9) {
+    if(data.stage === 1 && selected.id === '2026-11-09') {
       container.append(make('p','Reproducible placement needs an anatomical level, a landmark, and the patient’s side. A lead label states the intended view; it does not prove where the electrode was placed. Screen layout and physical placement are different things.'));
       container.append(make('p','Moving an electrode changes the measurement. A waveform difference can reflect placement or a cardiac change, and both can coexist. Read this once, then answer from memory.'));
     }
@@ -115,7 +153,7 @@ export function mountSession(document, storage, search = '') {
       container.append(card);
     }
     next.disabled=!valid();container.append(next);
-    if(data.stage>0)sources();
+    if (reviewing) sources();
   }
   const bar = get('ecg-philips-quiz').querySelector('.nc-chapter-bar');
   let previous = [];
@@ -127,10 +165,9 @@ export function mountSession(document, storage, search = '') {
   };
   get('ds-open').addEventListener('click',open);
   get('ds-close').addEventListener('click',()=>{get('ds-session').hidden=true;bar.hidden=false;for(const [id,hidden] of previous)get(id).hidden=hidden;get('ds-open').focus();});
-  if(sessions[requested])open();
+  if (hasDeepLink) open();
 }
 if(typeof document !== 'undefined') {
   let storage;try { storage=globalThis.localStorage; } catch { /* fall back to page-only state */ }
   mountSession(document,storage,globalThis.location?.search || '');
 }
-
