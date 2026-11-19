@@ -6,9 +6,9 @@
   <meta name="description" content="Four visual ECG chapters with electrode placement, viewing angles, guided practice, and mixed recall.">
   <meta name="theme-color" content="#003d73">
   <title>ECG Learning Tool</title>
-  <link rel="stylesheet" href="./assets/styles.css">
+  <link rel="stylesheet" href="./assets/styles.css?v=practice-tab">
   <script type="module" src="./assets/app.js"></script>
-  <script type="module" src="./assets/session.js"></script>
+  <script type="module" src="./assets/session.js?v=practice-tab"></script>
 </head>
 <body>
   <noscript>This learning tool needs JavaScript for chapter navigation and exercises.</noscript>
@@ -18,21 +18,32 @@
       <span class="pq-brand">PHILIPS <span>inspired learning</span></span>
       <h1 class="pq-header-label">ECG Learning</h1>
     </header>
-    <div class="ds-launch">
-      <div>
-        <label for="ds-picker">Guided practice session</label>
-        <select id="ds-picker"></select>
-      </div>
-      <button id="ds-open" type="button" class="pq-primary cursor-interaction" aria-controls="ds-session">Open guided session</button>
+    <div class="ecg-view-tabs" role="tablist" aria-label="ECG Learning views">
+      <button id="ecg-chapters-tab" type="button" role="tab" aria-selected="true" aria-controls="ecg-chapters-panel" class="cursor-interaction">Chapters</button>
+      <button id="ecg-guided-tab" type="button" role="tab" aria-selected="false" aria-controls="ecg-guided-panel" tabindex="-1" class="cursor-interaction">Guided practice</button>
     </div>
-    <section id="ds-session" class="pq-main" aria-labelledby="ds-title" hidden>
-      <div class="pq-meta"><span id="ds-day"></span></div>
-      <h2 id="ds-title" tabindex="-1">Electrical views and reproducible placement</h2>
-      <p id="ds-intro" class="ecg-intro">Objective: distinguish a recording difference from a change in the heart.</p>
-      <p id="ds-storage" class="ecg-note" role="status"></p>
-      <div id="ds-content"></div>
-      <div class="pq-actions"><button id="ds-close" type="button" class="ecg-secondary cursor-interaction">Back to chapters</button></div>
-    </section>
+    <div id="ecg-guided-panel" role="tabpanel" aria-labelledby="ecg-guided-tab" tabindex="0" hidden>
+      <section id="ds-chooser" class="pq-main ds-chooser" aria-labelledby="ds-chooser-title">
+        <h2 id="ds-chooser-title">Choose a practice session</h2>
+        <p class="ecg-intro">Each session takes about 5–7 minutes.</p>
+        <div class="ds-picker-row">
+          <div class="ds-picker-field">
+            <label for="ds-picker">Session date</label>
+            <select id="ds-picker"></select>
+          </div>
+          <button id="ds-open" type="button" class="pq-primary cursor-interaction" aria-controls="ds-session">Open session</button>
+        </div>
+      </section>
+      <section id="ds-session" class="pq-main" aria-labelledby="ds-title" hidden>
+        <div class="pq-meta"><span id="ds-day"></span></div>
+        <h2 id="ds-title" tabindex="-1"></h2>
+        <p id="ds-intro" class="ecg-intro"></p>
+        <p id="ds-storage" class="ecg-note" role="status"></p>
+        <div id="ds-content"></div>
+        <div class="pq-actions"><button id="ds-close" type="button" class="ecg-secondary cursor-interaction">Back to session dates</button></div>
+      </section>
+    </div>
+    <div id="ecg-chapters-panel" role="tabpanel" aria-labelledby="ecg-chapters-tab" tabindex="0">
     <div class="nc-chapter-bar"><label for="nc-chapter">Your chapters</label><select id="nc-chapter" aria-label="Choose a chapter"><option value="1" selected>1 · Lead foundations</option><option value="2">2 · Place the electrodes</option><option value="3">3 · Read the viewing angles</option><option value="4">4 · Connect leads to heart regions</option></select></div>
     <div id="nc-foundation">
     <main class="pq-main">
@@ -187,6 +198,7 @@
         </section>
       </main>
       <footer class="pq-footer"><nav class="ecg-navigation" aria-label="Learning sections"><a href="#nc-learn" data-nc-mode="learn" aria-current="page" class="cursor-interaction">Learn</a><span aria-hidden="true">·</span><a href="#nc-practice" data-nc-mode="practice" class="cursor-interaction">Practice</a><span aria-hidden="true">·</span><a href="#nc-recall" data-nc-mode="recall" class="cursor-interaction">Recall</a></nav><span>Philips-inspired concept</span></footer>
+    </div>
     </div>
   </section>
 </div>

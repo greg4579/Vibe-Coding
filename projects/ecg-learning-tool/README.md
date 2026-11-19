@@ -14,9 +14,9 @@ Open **http://127.0.0.1:8090**. No `npm install` is needed. Serve the app over H
 
 ## Guided session
 
-Choose a date from November 9–19, 2026 and select **Open guided session**. Link directly to a session with a query such as `?session=2026-11-19`. Each session has four written prompts, answer comparison, and self-assessment. Missed or prompted answers require a short teach-back. November 12 and 19 are cumulative recall sessions and withhold teaching until after the attempt. Add future sessions to `public/assets/session-content.js`.
+Open the **Guided practice** tab, choose a session date, and select **Open session**. Link directly to a session with a query such as `?session=2026-11-19`. Each session has four written prompts, answer comparison, and self-assessment. Missed or prompted answers require a short teach-back. November 12 and 19 are cumulative recall sessions and withhold teaching until after the attempt. Add future sessions to `public/assets/session-content.js`.
 
-Written responses and self-assessments are saved in this browser’s local storage, with a visible fallback when unavailable. They are not sent to a server or synchronized with ChatGPT. No answers, scores, or mastery claims from chat are preloaded. Self-assessment does not mark a chapter retained. The summary shows review targets and separates these from completed reviews. Chapter browsing still starts at Chapter 1, lesson 1.
+Written responses and self-assessments are saved in this browser’s local storage, with a visible fallback when unavailable. They are not sent to a server or synchronized with ChatGPT. No answers, scores, or mastery claims from chat are preloaded. Self-assessment does not mark a chapter retained. The summary shows review targets and separates these from completed reviews. The **Chapters** tab opens at Chapter 1, lesson 1. Switching tabs preserves your place in the current chapter and session.
 
 ## Included learning content
 

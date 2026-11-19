@@ -23,7 +23,8 @@ test('guided session withholds answers, requires attempts and teach-back, saves 
   const storage = { getItem:()=>saved, setItem:(_key,value)=>{saved=value;} };
   mountSession(document,storage,'?session=2026-11-10');
   assert.equal(get('ds-session').hidden,false);
-  assert.equal(get('nc-foundation').hidden,true);
+  assert.equal(get('ecg-chapters-panel').hidden, true);
+  assert.equal(get('ecg-guided-tab').getAttribute('aria-selected'), 'true');
   assert(!get('ds-content').textContent.includes(session.questions[0][2]));
   const next = () => get('ds-content').querySelector('button');
   const answer = i => { const input=get('ds-answer-'+i); input.value='Attempt '+i; for(const handler of input.events.input)handler(); };
@@ -41,7 +42,14 @@ test('guided session withholds answers, requires attempts and teach-back, saves 
   assert.match(get('ds-content').querySelector('textarea').value, /1\. Attempt 0 \[missed\]/);
   const reloaded=createDocument(html);mountSession(reloaded,storage,'?session=2026-11-10');
   assert(reloaded.getElementById('ds-content').textContent.includes('Responses recorded'));
-  get('ds-close').click();assert.equal(get('nc-foundation').hidden,false);
+  get('ds-close').click();
+  assert.equal(get('ds-session').hidden, true);
+  assert.equal(get('ds-chooser').hidden, false);
+  assert.equal(get('ds-picker').focused, true);
+  assert.equal(get('ecg-chapters-panel').hidden, true);
+  get('ecg-chapters-tab').click();
+  assert.equal(get('ecg-chapters-panel').hidden, false);
+  assert.equal(get('nc-foundation').hidden, false);
 });
 
 test('unavailable storage leaves guided recall usable and warns about persistence', async () => {
@@ -72,17 +80,29 @@ test('the picker opens all 11 sessions and keeps cumulative recall closed book',
   mountSession(document, undefined, '?session=constructor');
   assert.equal(get('ds-session').hidden, true);
   assert.equal(get('nc-foundation').hidden, false);
+  assert.equal(get('ecg-guided-panel').hidden, true);
+  const chapterTab = get('ecg-chapters-tab');
+  const practiceTab = get('ecg-guided-tab');
+  chapterTab.events.keydown[0]({ key: 'ArrowRight', preventDefault() {} });
+  assert.equal(get('ecg-guided-panel').hidden, false);
+  assert.equal(practiceTab.getAttribute('aria-selected'), 'true');
+  assert.equal(chapterTab.getAttribute('tabindex'), '-1');
+  assert.equal(practiceTab.focused, true);
   const picker = get('ds-picker');
   assert.equal(picker.value, '2026-11-19');
   assert.deepEqual(picker.children.map(option => option.value),
     Array.from({ length: 11 }, (_, index) => '2026-11-' + String(19 - index).padStart(2, '0')));
-  get('ds-open').click();
+  const open = date => {
+    get('ds-close').click();
+    picker.change(date);
+    get('ds-open').click();
+  };
   for (const option of picker.children) {
-    picker.change(option.value);
+    open(option.value);
     assert(get('ds-content').textContent.includes(sessions[option.value].questions[0][1]));
   }
   for (const day of ['2026-11-12', '2026-11-19']) {
-    picker.change(day);
+    open(day);
     for (const index of [0, 1]) {
       const answer = get('ds-answer-' + index);
       answer.value = 'My answer for ' + day;
@@ -94,8 +114,12 @@ test('the picker opens all 11 sessions and keeps cumulative recall closed book',
     assert(!body.includes('References'));
     for (const [, , answer] of sessions[day].questions) assert(!body.includes(answer));
   }
-  picker.change('2026-11-12');
+  chapterTab.click();
+  assert.equal(get('ecg-guided-panel').hidden, true);
+  practiceTab.click();
   assert(get('ds-answer-2'));
-  picker.change('2026-11-18');
+  open('2026-11-12');
+  assert(get('ds-answer-2'));
+  open('2026-11-18');
   assert.equal(get('ds-answer-0').value, '');
 });

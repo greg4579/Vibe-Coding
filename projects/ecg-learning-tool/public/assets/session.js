@@ -53,14 +53,7 @@ export function mountSession(document, storage, search = '') {
     picker.append(option);
   }
   const hasDeepLink = Object.hasOwn(sessions, requested);
-  selectSession(hasDeepLink ? requested : session.id);
-  picker.addEventListener('change', () => {
-    selectSession(picker.value);
-    if (!get('ds-session').hidden) {
-      render();
-      save();
-    }
-  });
+  picker.value = hasDeepLink ? requested : session.id;
   const make = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if(className) node.className = className; return node; };
   const save = () => {
     let saved;
@@ -155,17 +148,57 @@ export function mountSession(document, storage, search = '') {
     next.disabled=!valid();container.append(next);
     if (reviewing) sources();
   }
-  const bar = get('ecg-philips-quiz').querySelector('.nc-chapter-bar');
-  let previous = [];
-  const open = () => {
-    if(!get('ds-session').hidden)return;
-    previous = ['nc-foundation','nc-new-chapters'].map(id=>[id,get(id).hidden]);
-    for(const [id] of previous)get(id).hidden=true;
-    bar.hidden=true;get('ds-session').hidden=false;render();save();get('ds-title').focus();
-  };
-  get('ds-open').addEventListener('click',open);
-  get('ds-close').addEventListener('click',()=>{get('ds-session').hidden=true;bar.hidden=false;for(const [id,hidden] of previous)get(id).hidden=hidden;get('ds-open').focus();});
-  if (hasDeepLink) open();
+  const chapterTab = get('ecg-chapters-tab');
+  const practiceTab = get('ecg-guided-tab');
+  const tabs = [chapterTab, practiceTab];
+  const chooser = get('ds-chooser');
+  const sessionPanel = get('ds-session');
+
+  function activateTab(activeTab) {
+    for (const tab of tabs) {
+      const active = tab === activeTab;
+      tab.setAttribute('aria-selected', String(active));
+      tab.setAttribute('tabindex', active ? '0' : '-1');
+      get(tab.getAttribute('aria-controls')).hidden = !active;
+    }
+  }
+
+  for (const tab of tabs) {
+    tab.addEventListener('click', () => activateTab(tab));
+    tab.addEventListener('keydown', event => {
+      let nextTab;
+      if (event.key === 'Home') nextTab = chapterTab;
+      if (event.key === 'End') nextTab = practiceTab;
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        nextTab = tab === chapterTab ? practiceTab : chapterTab;
+      }
+      if (!nextTab) return;
+      event.preventDefault();
+      activateTab(nextTab);
+      nextTab.focus();
+    });
+  }
+
+  function openSession() {
+    if (!Object.hasOwn(sessions, picker.value)) return;
+    selectSession(picker.value);
+    chooser.hidden = true;
+    sessionPanel.hidden = false;
+    render();
+    save();
+    get('ds-title').focus();
+  }
+
+  get('ds-open').addEventListener('click', openSession);
+  get('ds-close').addEventListener('click', () => {
+    sessionPanel.hidden = true;
+    chooser.hidden = false;
+    picker.focus();
+  });
+  if (hasDeepLink) {
+    activateTab(practiceTab);
+    openSession();
+  }
 }
 if(typeof document !== 'undefined') {
   let storage;try { storage=globalThis.localStorage; } catch { /* fall back to page-only state */ }
